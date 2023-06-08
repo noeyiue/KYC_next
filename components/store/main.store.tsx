@@ -28,6 +28,21 @@ export const useFrontFormDataStore = create<FrontFormData>((set) => ({
     setData: (form: Step1FormData) => set({th_fname: form.th_fname, th_lname: form.th_fname, en_fname: form.en_fname, en_lname: form.en_lname}),
 }))
 
+export interface AllFileData {
+    step1_img: File | null,
+    step2_img: File | null,
+    step3_img: File | null,
+    addFileByStep: (step: string, file: File) => void,
+}
+
+
+export const useAllFileDataStore = create<AllFileData>((set) => ({
+    step1_img: null,
+    step2_img: null,
+    step3_img: null,
+    addFileByStep: (step: string, file: File) => set((state) => ({ ...state, [step]: file })),
+  }));
+
 
 export interface StatusData {
     step1: boolean,

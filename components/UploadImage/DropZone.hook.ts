@@ -1,5 +1,5 @@
 
-import { useStatusDataStore } from "../store/main.store";
+import { useAllFileDataStore, useStatusDataStore } from "../store/main.store";
 import { useErrorStore, useFileStore } from "../store/uploaded.store";
 
 export const convertAndAddImage = async (file: File) => {
@@ -89,18 +89,22 @@ export async function handleSubmit(state: number, image: File) {
       useFileStore.getState().setFetching(false);
       useFileStore.getState().addImage(null);
       if (state === 1) { 
+        useAllFileDataStore.getState().addFileByStep("step1_img", image)
         useStatusDataStore.getState().setStep("step1", false);
         useStatusDataStore.getState().setStep("step2", true);
       } else if (state === 2) {
+        useAllFileDataStore.getState().addFileByStep("step2_img", image)
         useStatusDataStore.getState().setStep("step2", false);
         useStatusDataStore.getState().setStep("step3", true);
       } else if (state === 3) {
+        useAllFileDataStore.getState().addFileByStep("step3_img", image)
         useStatusDataStore.getState().setStep("step3", false);
         useStatusDataStore.getState().setStep("step4", true);
       }
     } else {
       useFileStore.getState().setFetching(false);
       useFileStore.getState().addImage(null);
+      return false
     }
   }
 

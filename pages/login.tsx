@@ -6,6 +6,9 @@ import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { handleLogin } from "@/components/Login/Login";
+import { useState } from "react";
+import { Alert, IconButton, Snackbar } from "@mui/material";
+import { GrClose } from "react-icons/gr";
 
 
 export default function Login() {
@@ -14,12 +17,36 @@ export default function Login() {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     defaultValues: {
       username: "",
       password: "",
     },
   });
+
+  const [open, setOpen] = useState(false);
+
+  const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const action = (
+    <>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <GrClose fontSize="small" />
+      </IconButton>
+    </>
+  );
 
   return (
     <div className="flex h-screen bg-[#f8f8f8]">
@@ -45,7 +72,8 @@ export default function Login() {
                   router.push("/");
                 }
                 else if (response.status === 401) {
-                  console.log("Wrong password")
+                  setOpen(true);
+                  reset();
                 }
               })}>
               <h2 className="text-[#222] text-4xl font-black mb-10">Sign in</h2>
@@ -67,12 +95,12 @@ export default function Login() {
                   placeholder="Password"
                 />
               </div>
-              <div className="flex mt-8">
+              {/* <div className="flex mt-8">
                 <input type="checkbox" className="m-1.5" />
                 <p className="flex-grow">
                   Remember me
                 </p>
-              </div>
+              </div> */}
               <button
                 type="submit"
                 className="my-12 py-3 px-8 rounded-md bg-[#6dabe4] hover:bg-[#4292dc] text-white"
@@ -83,6 +111,11 @@ export default function Login() {
           </div>
         </div>
       </div>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+            Wrong Username or Password.
+          </Alert>
+        </Snackbar>
     </div>
   );
 }

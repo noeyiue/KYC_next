@@ -1,5 +1,5 @@
 import Main from "@/components/Layout/Main";
-import { getProfile } from "@/components/Login/Login";
+import { getProfile, handleLogout } from "@/components/Login/Login";
 import { useSessionStore } from "@/components/store/login.store";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -26,8 +26,20 @@ export default function Home() {
       </Head>
       {session && (
         <div className="w-full flex flex-col items-center justify-center">
-          <h1 className="mt-5 mb-5 text-3xl font-bold">Authorization</h1>
+          <h1 className="mt-8 mb-5 text-3xl font-bold">Authorization</h1>
+
           <Main />
+          <div className="absolute bottom-5 right-5">
+            <button
+              className="underline underline-offset-2 text-[#6dabe4] hover:text-[#4292dc]"
+              onClick={() => {
+                handleLogout();
+                router.push("/login");
+              }}
+            >
+              Log out
+            </button>
+          </div>
         </div>
       )}
     </div>

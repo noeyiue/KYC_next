@@ -1,4 +1,3 @@
-
 import { LoginFormData, useSessionStore } from "../store/login.store";
 
 export async function handleLogin(form: LoginFormData) {
@@ -45,4 +44,8 @@ export async function getProfile() {
     useSessionStore.getState().setSession(false);
   }
   return response;
+}
+
+export async function handleLogout() {
+  localStorage.removeItem("token");
 }
